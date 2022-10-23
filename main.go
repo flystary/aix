@@ -9,6 +9,8 @@ import (
 var (
 	route  r.Route
 	router  n.Router = &route
+	service n.Service
+	re      n.Requester
 )
 
 func init() {
@@ -18,12 +20,9 @@ func init() {
 }
 
 func main() {
-
-	fmt.Println(route.Modes)
-
-	for _, mode := range route.Modes {
-		fmt.Println(router.GetCpeFromRoute(mode))
-	}
+	fmt.Println(router.GetTokenFromRoute())
+	// service.Router =
+	// fmt.Println(re.GetToken(&service))
 
 
 }

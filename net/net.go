@@ -17,11 +17,13 @@ type Router interface {
 	GetTokenFromRoute() string
 }
 
-// Requester 登录
+// Requester 请求
 type Requester interface{
-	GetToken(URL string) string
-	GetBytes()
+	GetToken(service *Service) *Service
+	// GetMode(service  *Service) *Service
+	// GetBytes(service *Service) *Service
 }
+
 
 // Serializer 序列化
 type Serializer interface{}

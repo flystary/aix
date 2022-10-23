@@ -11,13 +11,14 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 
+	n "/aix/net"
 )
 
 var (
 	// token单例
 	onces = &sync.Once{}
 	// TOKEN token
-	TOKEN string
+	// TOKEN string
 )
 
 func newMD5(code string) string {
@@ -27,7 +28,7 @@ func newMD5(code string) string {
 }
 
 // GetToken 获取token
-func GetToken(URL string) string {
+func GetToken(s *n.Service) *n.Service {
 	var result = make(map[string]interface{})
 	requestData := make(url.Values)
 	requestData["username"] = []string{"matrix"}
@@ -37,7 +38,7 @@ func GetToken(URL string) string {
 	requestData["grant_type"] = []string{"password"}
 
 	onces.Do(func() {
-		res, err := http.PostForm(URL, requestData)
+		res, err := http.PostForm(s.Router.GetTokenFromRoute(), requestData)
 		if err != nil {
 			fmt.Printf("Login Error: %v", err)
 		}
@@ -50,7 +51,11 @@ func GetToken(URL string) string {
 		if err != nil {
 			fmt.Printf("Unmarshal body Error: %v", err)
 		}
-		TOKEN = result["access_token"].(string)
+		s.Token = result["access_token"].(string)
 	})
-	return TOKEN
+	return s
 }
+
+// func GetMode(s *n.Service) *n.Service {
+// 	return s
+// }
